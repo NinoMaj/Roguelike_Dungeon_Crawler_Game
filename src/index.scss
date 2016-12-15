@@ -1,0 +1,45 @@
+// colors
+$title: #E75651;
+$coverUp: #F49659;
+$confuzzled: #B2CF41;
+/////////
+
+html, body, #root {
+  margin: 0;
+  font-size: 62.5%;
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #EEEEEE;
+}
+
+body, h1, h2, h3 {
+  font-weight: 300
+}
+
+a {
+  color: white;
+  text-decoration: none;
+
+  &:hover {
+    color: #5aadbb;
+  }
+}
+
+.Board {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border: none;
+  margin: 0px 0px 15px 0px;
+  padding: 0px 0px;
+}
+
+.Cell {
+  border: 1px solid gray;
+  height: 12px;
+  width: 12px;
+  margin: 0px;
+  padding: 0px;
+}
+
+
