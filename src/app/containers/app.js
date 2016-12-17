@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 
-// import UserList from './user_list';
-// import UserDetails from './user_detail';
 import Board from './board';
+import Status from './status';
 
 const styles = {
   container: {
@@ -12,19 +11,22 @@ const styles = {
     textAlign: 'center',
     margin: '15px auto',
     fontWeight: 300,
-    fontSize: '3rem'
+    fontSize: '3rem',
+    color: '#B2CF41'
   },
   p: {
     textAlign: 'center',
     margin: '5px auto',
-    fontSize: '1.6rem'
+    fontSize: '1.6rem',
+    color: '#B2CF41'
   },
   board: {
     margin: '0 auto',
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    backgroundColor: '#1f1f1f'
   }
 };
 
@@ -42,17 +44,9 @@ export class App extends Component {
           Click on cell to interact
         </p>
         <div style={styles.board}>
+          <Status/>
           <Board/>
         </div>
-        {/*
-          <div>
-          <h2>Username List:</h2>
-          <UserList/>
-          <hr/>
-          <h2>User Details:</h2>
-          <UserDetails/>
-        </div>
-      */}
       </div>
     );
   }

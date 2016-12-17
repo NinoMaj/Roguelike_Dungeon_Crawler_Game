@@ -7,7 +7,8 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100%'
+    minHeight: '100%',
+    backgroundColor: '#1f1f1f'
   },
   main: {
     flex: 1,

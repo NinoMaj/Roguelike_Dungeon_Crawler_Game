@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 
 const styles = {
   color0: {
-    backgroundColor: "white"
+    backgroundColor: "#1f1f1f"
   },
   color1: {
     backgroundColor: "#FF9999"
@@ -52,21 +52,3 @@ Cell.propTypes = {
   cell: React.PropTypes.object,
   handleClickProp: React.PropTypes.func
 };
-
-/*
-const mapStateToProps = (state, ownProps) => {
-  return {
-    prop: state.prop
-  }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    dispatch1: () => {
-      dispatch(actionCreator)
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(component)
-*/

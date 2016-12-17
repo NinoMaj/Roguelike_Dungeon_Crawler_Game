@@ -10,13 +10,7 @@ const styles = {
     flex: 1,
     fontSize: '1.5rem',
     margin: '1rem',
-    color: "gray"
-  },
-  date: {
-    flex: 1,
-    textAlign: 'right',
-    margin: '1rem',
-    color: 'white'
+    color: "white"
   }
 };
 

@@ -10,19 +10,9 @@ import boardSizeState from './reducer_board_size';
  * Your entire applications state (store) is just whatever gets returned from all your reducers
  * */
 
-// console.log('users:', users);
-// console.log('activeUser:', activeUser);
-// console.log('cells:', cells);
-
 const allReducers = combineReducers({
   cells,
   boardSizeState
-  /*
-  users,
-  activeUser
-  */
 });
-
-// console.log('allReducer', allReducers);
 
 export default allReducers;
