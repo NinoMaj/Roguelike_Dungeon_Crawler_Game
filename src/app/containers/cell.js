@@ -4,13 +4,19 @@ import React, {Component} from 'react';
 
 const styles = {
   color0: {
-    backgroundColor: "#1f1f1f"
+    backgroundColor: "#1f1f1f" // background gray
   },
   color1: {
-    backgroundColor: "#FF9999"
+    backgroundColor: "#FFFFFF" // white for room
   },
   color2: {
-    backgroundColor: "#FF0000"
+    backgroundColor: "#F49659" // orange player
+  },
+  color3: {
+    backgroundColor: "#E75651" // red enemy
+  },
+  color4: {
+    backgroundColor: "#B2CF41" // green perk
   }
 };
 
@@ -33,6 +39,22 @@ export default class Cell extends Component {
           className="Cell"
           onClick={() => this.handleClick(this.props.id)}
           style={styles.color1}
+          >
+        </div>);
+    } else if (this.props.cell.cellStatus === 3) {
+      return (
+        <div
+          className="Cell"
+          onClick={() => this.handleClick(this.props.id)}
+          style={styles.color3}
+          >
+        </div>);
+    } else if (this.props.cell.cellStatus === 4) {
+      return (
+        <div
+          className="Cell"
+          onClick={() => this.handleClick(this.props.id)}
+          style={styles.color4}
           >
         </div>);
     }

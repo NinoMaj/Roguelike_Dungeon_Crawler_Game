@@ -1,9 +1,9 @@
 /* eslint linebreak-style: ["error", "windows"] */
 import {combineReducers} from 'redux';
-// import users from './reducers_users';
+
 import cells from './reducers_cells';
-// import activeUser from './reducer_active_user';
 import boardSizeState from './reducer_board_size';
+import items from './reducers_items';
 
 /*
  * We combine all reducers into a single object before updated data is dispatched (sent) to store
@@ -12,7 +12,10 @@ import boardSizeState from './reducer_board_size';
 
 const allReducers = combineReducers({
   cells,
-  boardSizeState
+  boardSizeState,
+  items
 });
-
+// console.log('allReducers', allReducers);
+// console.log('cells', cells);
+// console.log('boardSizeState', boardSizeState);
 export default allReducers;

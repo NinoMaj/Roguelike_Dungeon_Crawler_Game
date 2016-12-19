@@ -7,27 +7,82 @@ import {Button, FormControl} from 'react-bootstrap';
 import Cell from './cell';
 import {selectCell} from '../actions/select_cell';
 import {resetCells} from '../actions/reset_cells';
+import {changeItems} from '../actions/change_items';
 import {boardSize} from '../actions/board_size';
 
-const iterations = 0;
+const styles = {
+  board: {
+    margin: '0 auto'
+  },
+  buttons: {
+    margin: '5px auto',
+    fontSize: '2rem',
+    whiteSpace: 'normal'
+  },
+  startAnditerations: {
+    display: 'flex',
+    margin: '5px auto'
+  },
+  start: {
+    backgroundColor: '#B2CF41',
+    border: 'none'
+  },
+  iterations: {
+    fontSize: '1.8rem',
+    marginLeft: '5px',
+    backgroundColor: '#B2CF41',
+    border: 'none'
+  },
+  stop: {
+    backgroundColor: '#B2CF41',
+    border: 'none'
+  },
+  selectAndReset: {
+    display: 'flex',
+    marginTop: '5px'
+  },
+  select: {
+    maxWidth: '70%',
+    fontSize: '1.8rem',
+    height: '2.5em',
+    backgroundColor: '#B2CF41',
+    border: 'none'
+  },
+  reset: {
+    maxWidth: '30%',
+    marginLeft: '5px',
+    backgroundColor: '#B2CF41',
+    border: 'none'
+  }
+};
 
 class Board extends Component {
   constructor() {
     super();
     this.renderList = this.renderList.bind(this);
     this.onHandleClickValue = this.onHandleClickValue.bind(this);
-    this.onHandleReset = this.onHandleReset.bind(this);
+    this.handleReset = this.handleReset.bind(this);
   }
 
   componentWillMount() {
     this.props.resetCells();
   }
 
+  componentDidMount() {
+    document.body.addEventListener('keydown', event => {
+      // console.log('Enter pressed', event);
+      // console.log('Enter pressed', event.key);
+      this.props.changeItems(this.props.cells, this.props.items, event.key);
+    });
+  }
+
   onHandleClickValue(id) {
+    console.log('inonHandleClickValue');
     this.props.selectCell(this.props.cells, id);
   }
 
-  onHandleReset() {
+  handleReset() {
+    console.log('onHandleReset');
     this.props.resetCells(this.props.boardSizeState);
   }
 
@@ -36,7 +91,17 @@ class Board extends Component {
     this.props.boardSize(Number(e.target.value));
   }
 
+  checkHealth() {
+    if (this.props.items.player) {
+      if (this.props.items.player.health <= 0) {
+        this.handleReset();
+      }
+    }
+  }
+
   renderList() {
+    this.checkHealth();
+    // console.log('this.props.cells', this.props.cells);
     return Object.keys(this.props.cells).map(key => {
       const cell = this.props.cells[key];
       return (
@@ -50,67 +115,22 @@ class Board extends Component {
     });
   }
   render() {
-    const maxWidth = Math.sqrt(Object.keys(this.props.cells).length) * 12;
-    const styles = {
-      width: {
-        width: maxWidth,
-        margin: '0 auto'
-      },
-      buttons: {
-        maxWidth,
-        margin: '5px auto',
-        fontSize: '2rem',
-        whiteSpace: 'normal'
-      },
-      startAnditerations: {
-        display: 'flex',
-        margin: '5px auto'
-      },
-      start: {
-        backgroundColor: '#B2CF41',
-        border: 'none'
-      },
-      iterations: {
-        fontSize: '1.8rem',
-        marginLeft: '5px',
-        backgroundColor: '#B2CF41',
-        border: 'none'
-      },
-      stop: {
-        backgroundColor: '#B2CF41',
-        border: 'none'
-      },
-      selectAndReset: {
-        display: 'flex',
-        marginTop: '5px'
-      },
-      select: {
-        maxWidth: '70%',
-        fontSize: '1.8rem',
-        height: '2.5em',
-        backgroundColor: '#B2CF41',
-        border: 'none'
-      },
-      reset: {
-        maxWidth: '30%',
-        marginLeft: '5px',
-        backgroundColor: '#B2CF41',
-        border: 'none'
-      }
-    };
+    // const maxWidth = Math.sqrt(Object.keys(this.props.cells[0]).length) * 16;
+    console.log('this.props.items', this.props.items);
+    const width = {width: this.props.boardSizeState * 16};
 
     return (
       <div>
         <div
-          style={styles.width}
+          style={Object.assign({}, styles.board, width)}
           className="Board"
           >
           {this.renderList()}
         </div>
-        <div style={styles.buttons}>
+        <div style={Object.assign({}, styles.buttons, width)}>
           <div style={styles.startAnditerations}>
             <Button bsSize="large" block style={styles.start}>START</Button>
-            <Button style={styles.iterations}>{iterations}</Button>
+            <Button style={styles.iterations}>x</Button>
           </div>
           <Button bsSize="large" block style={styles.stop}>STOP</Button>
           <div style={styles.selectAndReset}>
@@ -134,20 +154,23 @@ class Board extends Component {
 Board.propTypes = {
   cells: React.PropTypes.object,
   boardSizeState: React.PropTypes.number,
+  items: React.PropTypes.object,
   boardSize: React.PropTypes.func,
   selectCell: React.PropTypes.func,
-  resetCells: React.PropTypes.func
+  resetCells: React.PropTypes.func,
+  changeItems: React.PropTypes.func
 };
 
 const mapStateToProps = state => {
   return {
     cells: state.cells,
-    boardSizeState: state.boardSizeState
+    boardSizeState: state.boardSizeState,
+    items: state.items
   };
 };
 
 const mapDispatchToProps = function (dispatch) {
-  return bindActionCreators(Object.assign({}, {boardSize}, {resetCells}, {selectCell}), dispatch);
+  return bindActionCreators(Object.assign({}, {boardSize}, {resetCells}, {changeItems}, {selectCell}), dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

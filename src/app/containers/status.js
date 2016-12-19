@@ -1,36 +1,51 @@
 /* eslint linebreak-style: ["error", "windows"] */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
+// const maxWidth = this.props.boardSizeState * 16;
 const styles = {
-  width: {
-    margin: '0 auto'
+  status: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    margin: '0 auto',
+    color: 'white',
+    fontSize: '1.8rem'
   }
 };
 
 class Status extends Component {
-
   render() {
+    if (this.props.items.player) {
+      const width = {width: this.props.boardSizeState * 16};
+      return (
+        <div style={Object.assign({}, styles.status, width)}>
+          <div>Weapon: {this.props.items.player.weapon}</div>
+          <div>Level: {this.props.items.player.level}</div>
+          <div>Health: {this.props.items.player.health}</div>
+          <div>XP: {this.props.items.player.Xp}</div>
+        </div>
+      );
+    }
     return (
-      <div style={styles.width}>
-        Bla
+      <div style={styles.status}>
+        Loading...
       </div>
     );
   }
 }
 
 Status.propTypes = {
+  boardSizeState: React.PropTypes.number,
+  items: React.PropTypes.object
 };
 
 const mapStateToProps = state => {
   return {
-    cells: state.cells
+    items: state.items,
+    boardSizeState: state.boardSizeState
   };
 };
 
-const mapDispatchToProps = function (dispatch) {
-  return bindActionCreators(Object.assign({}), dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Status);
+export default connect(mapStateToProps)(Status);
