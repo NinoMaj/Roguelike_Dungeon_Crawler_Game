@@ -1,13 +1,18 @@
 /* eslint linebreak-style: ["error", "windows"] */
-export const resetCells = (size = 50) => {
+export const resetCells = (size = 50, reason, options) => {
   // console.log('size', typeof size, size);
-  const boardSize = Math.pow(size, 2);
+  // console.log('reason', reason);
+  // const boardSize = Math.pow(size, 2);
+  const boardSize = size * 30;
   const board = {};
   const player = {};
   const numberOfEnemies = 5;
   const enemy = {};
   const perks = {};
   const numberOfPerks = 5;
+  const message = {
+    last: reason
+  };
   const rooms = [];
   // for (let i = 1; i <= 50; i++) {
   //   walls.push(i);
@@ -41,6 +46,22 @@ export const resetCells = (size = 50) => {
   rooms.push(667, 717, 767, 817, 867, 917, 916, 915, 914, 918, 919, 920);
   room(807, 7, 6);
   room(871, 4, 4);
+  room(1102, 6, 9);
+  // hallway 4
+  rooms.push(1408);
+  room(1309, 7, 4);
+  room(230, 8, 6);
+  room(1042, 7, 4);
+  room(1229, 5, 5);
+  room(677, 14, 10);
+  // hallway 5
+  rooms.push(975, 976);
+  // hallway 6
+  rooms.push(1091);
+  // hallway 7
+  rooms.push(1181);
+  // hallway 8
+  rooms.push(533, 583, 633);
 
   for (let i = 1; i <= boardSize; i++) {
     if (rooms.includes(i) === true) {
@@ -51,12 +72,12 @@ export const resetCells = (size = 50) => {
   }
 
   function putPlayer() {
-    player.position = Math.floor(Math.random() * 2500) + 1;
+    player.position = Math.floor(Math.random() * boardSize) + 1;
     if (board[player.position].cellStatus === 1) {
       board[player.position].cellStatus = 2;
       player.weapon = 'stick';
       player.level = 1;
-      player.health = player.level * 100;
+      player.health = player.level * 100 * options.diff;
       player.Xp = 0;
       return true;
     }
@@ -66,10 +87,15 @@ export const resetCells = (size = 50) => {
 
   const putEnemies = id => {
     enemy[id] = {};
-    enemy[id].position = Math.floor(Math.random() * 2500) + 1;
+    enemy[id].position = Math.floor(Math.random() * boardSize) + 1;
     if (board[enemy[id].position].cellStatus === 1) {
-      board[enemy[id].position].cellStatus = 3;
-      enemy[id].level = Math.floor(Math.random() * 5) + 1;
+      if (id === numberOfEnemies + 1) {
+        board[enemy[id].position].cellStatus = 5;
+        enemy[id].level = 6;
+      } else {
+        board[enemy[id].position].cellStatus = 3;
+        enemy[id].level = Math.floor(Math.random() * 5) + 1;
+      }
       enemy[id].health = enemy[id].level * 100;
       return true;
     }
@@ -80,9 +106,11 @@ export const resetCells = (size = 50) => {
     putEnemies(i);
   }
 
+  putEnemies(numberOfEnemies + 1);
+
   const putPerks = id => {
     perks[id] = {};
-    perks[id].position = Math.floor(Math.random() * 2500) + 1;
+    perks[id].position = Math.floor(Math.random() * boardSize) + 1;
     if (board[perks[id].position].cellStatus === 1) {
       board[perks[id].position].cellStatus = 4;
       perks[id].id = Math.floor(Math.random() * 5) + 1;
@@ -117,14 +145,16 @@ export const resetCells = (size = 50) => {
   const items = {
     player,
     enemy,
-    perks
+    perks,
+    message
   };
   return {
     type: 'CELLS_RESETED',
     payload: [
       board,
       items,
-      perks
+      perks,
+      message
     ]
   };
 };

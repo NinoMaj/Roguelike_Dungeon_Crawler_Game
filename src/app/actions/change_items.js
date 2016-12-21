@@ -1,42 +1,45 @@
 /* eslint linebreak-style: ["error", "windows"] */
 export const changeItems = (cells, items, event) => {
+  function levelUpCheck() {
+    if (items.player.Xp >= 100) {
+      items.player.Xp -= 100;
+      items.player.level++;
+    }
+  }
   function perkTaken(position) {
     Object.keys(items.perks).map(key => {
       if (items.perks[key].position === position) {
         switch (items.perks[key].id) {
           case 1:
             items.player.health += 50;
-            console.log('health +50');
+            items.message.last = 'Health +50';
+            console.log('Health +50');
             break;
           case 2:
             items.player.health += 100;
-            console.log('health +100');
+            items.message.last = 'Health +100';
+            console.log('Health +100');
             break;
           case 3:
             items.player.Xp += 50;
-            if (items.player.Xp >= 100) {
-              items.player.Xp -= 100;
-              items.player.level++;
-            }
+            levelUpCheck();
+            items.message.last = 'XP +50';
             console.log('XP +50');
             break;
           case 4:
             items.player.Xp += 100;
-            if (items.player.Xp >= 100) {
-              console.log('Level up!');
-              items.player.Xp -= 100;
-              items.player.level++;
-            }
+            levelUpCheck();
+            items.message.last = 'XP +100';
             console.log('XP +100');
             break;
           case 5:
             items.player.weapon = 'sword';
+            items.message.last = 'Sword found';
             console.log('Sword taken');
             break;
           default:
             console.log('default');
         }
-        console.log('Perk found: ', items.perks[key].id);
         return true;
       }
       return false;
@@ -44,39 +47,33 @@ export const changeItems = (cells, items, event) => {
   }
 
   function fightEnemy(position) {
-    console.log('position:', position);
     Object.keys(items.enemy).map(key => {
       let hit;
-      console.log('items.enemy[key].position:', items.enemy[key].position);
       if (items.enemy[key].position === position) {
-        switch (items.enemy[key].level) {
-          case 1:
-            hit = (Math.floor(Math.random() * 10) + 1) * 5;
-            console.log('player health:', hit);
-            items.player.health -= hit;
+        hit = (Math.floor(Math.random() * 30) + 20) * items.player.level;
+        switch (items.player.weapon) {
+          case 'stick':
+            hit *= 1;
             break;
-          case 2:
-            hit = (Math.floor(Math.random() * 10) + 1) * 5;
-            console.log('player health:', hit);
-            items.player.health -= hit;
-            break;
-          case 3:
-            hit = (Math.floor(Math.random() * 10) + 1) * 5;
-            console.log('player health:', hit);
-            items.player.health -= hit;
-            break;
-          case 4:
-            hit = (Math.floor(Math.random() * 10) + 1) * 5;
-            console.log('player health:', hit);
-            items.player.health -= hit;
-            break;
-          case 5:
-            hit = (Math.floor(Math.random() * 10) + 1) * 5;
-            console.log('player health:', hit);
-            items.player.health -= hit;
+          case 'sword':
+            hit *= 2;
             break;
           default:
-            console.log('default');
+            return false;
+        }
+        console.log('hit to enemy', hit);
+        items.message.last = `${hit} hits to the enemy`;
+        items.enemy[key].health -= hit;
+        console.log('enemy health left:', items.enemy[key].health);
+        if (items.enemy[key].health > 0) {
+          hit = (Math.floor(Math.random() * 10) + 1) * items.enemy[key].level;
+          console.log('hit to player:', hit);
+          items.player.health -= hit;
+        } else {
+          items.player.Xp += items.enemy[key].level * 20;
+          levelUpCheck();
+          delete items.enemy[key];
+          cells[position].cellStatus = 1;
         }
         return true;
       }
@@ -88,8 +85,9 @@ export const changeItems = (cells, items, event) => {
     case 'ArrowUp':
       if (cells[items.player.position - 50].cellStatus === 4) {
         perkTaken(items.player.position - 50);
-      } else if (cells[items.player.position - 50].cellStatus === 3) {
+      } else if (cells[items.player.position - 50].cellStatus === 3 || cells[items.player.position - 50].cellStatus === 5) {
         fightEnemy(items.player.position - 50);
+        break;
       }
       if (cells[items.player.position - 50].cellStatus === 1 || cells[items.player.position - 50].cellStatus === 4) {
         cells[items.player.position].cellStatus = 1;
@@ -100,6 +98,9 @@ export const changeItems = (cells, items, event) => {
     case 'ArrowDown':
       if (cells[items.player.position + 50].cellStatus === 4) {
         perkTaken(items.player.position + 50);
+      } else if (cells[items.player.position + 50].cellStatus === 3 || cells[items.player.position + 50].cellStatus === 5) {
+        fightEnemy(items.player.position + 50);
+        break;
       }
       if (cells[items.player.position + 50].cellStatus === 1 || cells[items.player.position + 50].cellStatus === 4) {
         cells[items.player.position].cellStatus = 1;
@@ -110,6 +111,9 @@ export const changeItems = (cells, items, event) => {
     case 'ArrowLeft':
       if (cells[items.player.position - 1].cellStatus === 4) {
         perkTaken(items.player.position - 1);
+      } else if (cells[items.player.position - 1].cellStatus === 3 || cells[items.player.position - 1].cellStatus === 5) {
+        fightEnemy(items.player.position - 1);
+        break;
       }
       if (cells[items.player.position - 1].cellStatus === 1 || cells[items.player.position - 1].cellStatus === 4) {
         cells[items.player.position].cellStatus = 1;
@@ -120,6 +124,9 @@ export const changeItems = (cells, items, event) => {
     case 'ArrowRight':
       if (cells[items.player.position + 1].cellStatus === 4) {
         perkTaken(items.player.position + 1);
+      } else if (cells[items.player.position + 1].cellStatus === 3 || cells[items.player.position + 1].cellStatus === 5) {
+        fightEnemy(items.player.position + 1);
+        break;
       }
       if (cells[items.player.position + 1].cellStatus === 1 || cells[items.player.position + 1].cellStatus === 4) {
         cells[items.player.position].cellStatus = 1;

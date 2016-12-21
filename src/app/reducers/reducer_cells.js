@@ -10,9 +10,9 @@ export default function (state = {}, action) {
     case 'CELLS_RESETED':
       // console.log('cells reseted action.payload', action.payload);
       return Object.assign({}, action.payload[0]);
-    case 'CELL_SELECTED':
-      // console.log('cells selected action.payload', action.payload);
-      return Object.assign({}, action.payload);
+    // case 'CELL_SELECTED':
+    //   // console.log('cells selected action.payload', action.payload);
+    //   return Object.assign({}, action.payload);
     case 'ITEMS_CHANGED':
       // console.log('items changed action.payload[0]', action.payload[0]);
       return Object.assign({}, action.payload[0]);

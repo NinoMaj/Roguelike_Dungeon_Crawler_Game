@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import Board from './board';
-import Status from './status';
+// import Status from './status';
 
 const styles = {
   container: {
@@ -11,8 +11,9 @@ const styles = {
     textAlign: 'center',
     margin: '15px auto',
     fontWeight: 300,
-    fontSize: '3rem',
-    color: '#B2CF41'
+    fontSize: '6rem',
+    color: '#F49659',
+    fontFamily: "'DUNGRG', 'Open Sans', sans-serif"
   },
   p: {
     textAlign: 'center',
@@ -38,13 +39,11 @@ export class App extends Component {
     return (
       <div style={styles.container}>
         <h2 style={styles.h2}>
-          Conway's Game of Life
+          Rougelike Dungeon Crawler Game
         </h2>
         <p style={styles.p}>
-          Click on cell to interact
         </p>
         <div style={styles.board}>
-          <Status/>
           <Board/>
         </div>
       </div>
