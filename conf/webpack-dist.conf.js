@@ -8,6 +8,9 @@ const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
+  node: {
+  fs: "empty"
+  },
   module: {
     preLoaders: [
       {
@@ -16,7 +19,6 @@ module.exports = {
         loader: 'eslint'
       }
     ],
-
     loaders: [
       {
         test: /.json$/,

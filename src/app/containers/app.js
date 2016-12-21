@@ -13,7 +13,7 @@ const styles = {
     fontWeight: 300,
     fontSize: '6rem',
     color: '#F49659',
-    fontFamily: "'DUNGRG', 'Open Sans', sans-serif"
+    fontFamily: "'dungrg', 'Open Sans', sans-serif"
   },
   p: {
     textAlign: 'center',

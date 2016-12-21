@@ -12,19 +12,19 @@ const styles = {
   },
   color2: {
     // backgroundColor: "#F49659", // orange for player
-    backgroundImage: `url("/app/images/mountedKnight.png")`
+    backgroundImage: `url("./app/images/mountedKnight.png")`
   },
   color3: {
     // backgroundColor: "#E75651" // red enemy
-    backgroundImage: `url("/app/images/spider-alt.png")`
+    backgroundImage: `url("./app/images/spider-alt.png")`
   },
   color4: {
     // backgroundColor: "#B2CF41" // green perk
-    backgroundImage: `url("/app/images/locked-chest.png")`
+    backgroundImage: `url("./app/images/locked-chest.png")`
   },
   color5: {
     // backgroundColor: "#7D26CD" // #purple boss
-    backgroundImage: `url("/app/images/ifrit.png")`
+    backgroundImage: `url("./app/images/ifrit.png")`
   }
 };
 
